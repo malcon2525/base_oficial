@@ -4,6 +4,8 @@ use App\Http\Controllers\AdmController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
 
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
