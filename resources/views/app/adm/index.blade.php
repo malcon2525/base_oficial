@@ -5,7 +5,7 @@
 @section('content')
 
 
-<div class="container">sadfçlskd</div>
+<div class="container">conteúdo adm página inicial</div>
 
 
 

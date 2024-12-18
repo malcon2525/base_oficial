@@ -19,10 +19,18 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 
-
-Route::get('/', [SiteController::class, 'home']);
-Route::get('/adm', [AdmController::class, 'home']);
-
 Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::get('/', [SiteController::class, 'home']);
+Route::get('/adm', [AdmController::class, 'index']);
+
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
+
+
+
+//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

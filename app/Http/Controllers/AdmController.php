@@ -6,8 +6,14 @@ use Illuminate\Http\Request;
 
 class AdmController extends Controller
 {
-    public function home()
+
+    public function __construct()
     {
-        return view('app.adm.home');
+        $this->middleware('auth');
+    }
+
+    public function index()
+    {
+        return view('app.adm.index');
     }
 }
