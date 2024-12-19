@@ -32,7 +32,6 @@ Route::get('/adm', [AdmController::class, 'index']);
 
 //CRUD USUARIOS
 Route::get('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'index'])->name('usuario.consulta');
-
 Route::get('/usuarios/novo', [App\Http\Controllers\Adm\UserController::class, 'create'])->name('usuario.create');
 Route::post('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'store'])->name('usuario.store');
 Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');
