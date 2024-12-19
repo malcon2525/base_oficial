@@ -13,13 +13,10 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = [
-            ['id' => 1, 'name' => 'João', 'email' => 'joao@example.com'],
-            ['id' => 2, 'name' => 'Maria', 'email' => 'maria@example.com'],
-            ['id' => 3, 'name' => 'Pedro', 'email' => 'pedro@example.com'],
-        ];
+        // Recupera todos os usuários do banco de dados
+        $users = User::all();
 
-        // Passa o array para a view.
+        // Passa os usuários  para a view.
         return view('app.adm.usuarios.consulta', compact('users'));
     }
 
