@@ -23,16 +23,15 @@ use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
 
-
 Route::get('/', [SiteController::class, 'home']);
 Route::get('/adm', [AdmController::class, 'index']);
-
 
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 
-
+//CRUD USUARIOS
+Route::get('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'index'])->name('usuario.consulta');
 
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

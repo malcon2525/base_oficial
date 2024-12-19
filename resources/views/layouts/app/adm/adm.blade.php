@@ -22,7 +22,11 @@
     
     
     {{-- CONTEÚDO --}}
-    @yield('content')
+
+    <div id="app">
+        @yield('content')
+    </div>
+    
 
     
 </body>

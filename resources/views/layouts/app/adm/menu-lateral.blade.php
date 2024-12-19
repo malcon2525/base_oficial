@@ -23,7 +23,7 @@
         </div>
 
         <div class="flex-fill adm-sml-tit align-self-center">
-          <a href="">Usuários</a>
+          <a href="{{ route('usuario.consulta') }}">Usuários</a>
         </div>
 
       </div>
