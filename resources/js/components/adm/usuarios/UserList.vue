@@ -61,7 +61,7 @@
               <a 
                 :href="`/usuarios/${user.id}/excluir`"
                 class="btn btn-sm btn-danger"
-                @click.prevent="confirmDelete(user.id)"
+                
               >
                 Excluir
               </a>
@@ -130,12 +130,6 @@ export default {
         this.page = newPage;
       }
     },
-    // Confirma a exclusão do usuário
-    confirmDelete(userId) {
-      if (confirm("Tem certeza que deseja excluir este usuário?")) {
-        window.location.href = `/usuarios/${userId}/excluir`;
-      }
-    }
   }
 };
 </script>

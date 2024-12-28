@@ -123,6 +123,22 @@ class UserController extends Controller
         return redirect()->route('usuario.consulta')->with('success', 'Usuário atualizado com sucesso!');
     }
 
+
+
+
+    /**
+     * Mostra o formulário para excluir um usuário.
+     */
+    public function showDeleteForm($id)
+    {
+        // Recupera o usuário a ser excluído
+        $user = User::findOrFail($id);
+
+        // Exibe a view com o usuário para confirmação
+        return view('app.adm.usuarios.delete', compact('user'));
+    }
+
+
     /**
      * Remove the specified resource from storage.
      */
