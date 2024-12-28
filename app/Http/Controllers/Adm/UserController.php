@@ -52,7 +52,7 @@ class UserController extends Controller
             'password.min' => 'A senha deve ter pelo menos 6 caracteres.',
             'password.confirmed' => 'A confirmação da senha não corresponde.',
         
-            'ativo.required' => 'O campo ativo é obrigatório.',
+            
             'ativo.boolean' => 'O campo ativo deve ser verdadeiro ou falso.',
         ]);
 
@@ -79,24 +79,62 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        //
+        // Recupera o usuário pelo ID
+        $user = User::findOrFail($id);
+        
+        // Retorna a view com o usuário
+        return view('app.adm.usuarios.edit', compact('user'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
-        //
+
+        //dd($request->input('ativo'));
+        // Validação dos dados
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id, //A validação é semelhante à de cadastro, mas a regra para o campo email permite a atualização do próprio e-mail do usuário (com a exceção do seu próprio registro usando unique:users,email,' . $id).
+            'password' => 'nullable|min:6|confirmed', // A senha é atualizada apenas se o campo password for preenchido. Caso contrário, o usuário manterá a senha antiga.
+            
+        ]);
+
+        // Recupera o usuário a ser atualizado
+        $user = User::findOrFail($id);
+
+        // Atualiza os dados do usuário
+        $user->name = $request->input('name');
+        $user->email = $request->input('email');        
+        $user->ativo = $request->input('ativo') == 'on' ? true : false ;
+
+        // Atualiza a senha apenas se foi fornecida
+        if ($request->filled('password')) {
+            $user->password = bcrypt($request->input('password'));
+        }
+
+        // Salva as alterações no banco de dados
+        $user->save();
+
+        // Redireciona de volta para a lista de usuários com uma mensagem de sucesso
+        return redirect()->route('usuario.consulta')->with('success', 'Usuário atualizado com sucesso!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $user)
+    public function destroy($id)
     {
-        //
+         // Verifica se o usuário existe
+        $user = User::findOrFail($id);
+
+        // Exclui o usuário
+        $user->delete();
+
+        // Redireciona de volta para a lista de usuários com uma mensagem de sucesso
+        return redirect()->route('usuario.consulta')->with('success', 'Usuário excluído com sucesso!');
     }
 }

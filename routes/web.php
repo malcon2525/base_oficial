@@ -36,9 +36,9 @@ Route::get('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'index'
 Route::get('/usuarios/novo', [App\Http\Controllers\Adm\UserController::class, 'create'])->name('usuario.create');//apresenta o formulário de cadastro
 Route::post('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'store'])->name('usuario.store'); // recebe os dados do formulário e grava no banco
 
-Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');
+Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');//apresenta o formulário de edição
+Route::put('/usuarios/{id}', [App\Http\Controllers\Adm\UserController::class, 'update'])->name('usuario.update');//recebe os dados para edição no banco
 
-Route::put('/usuarios/{id}', [App\Http\Controllers\Adm\UserController::class, 'update'])->name('usuario.update');
 Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'destroy'])->name('usuario.excluir');
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
