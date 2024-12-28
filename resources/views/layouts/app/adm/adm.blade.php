@@ -28,6 +28,7 @@
     </div>
     
 
-    
+    <!-- Scripts específicos da página -->
+    @stack('scripts')
 </body>
 </html>
