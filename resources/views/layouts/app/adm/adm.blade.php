@@ -8,7 +8,8 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>@yield('title', 'Minha Aplicação')</title>
-
+    
+   
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/css/adm.css', 'resources/js/app.js'])
 </head>
@@ -27,7 +28,8 @@
         @yield('content')
     </div>
     
-
+    
+    
     <!-- Scripts específicos da página -->
     @stack('scripts')
 </body>

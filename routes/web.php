@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Adm\RoleController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -44,3 +45,28 @@ Route::get('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::c
 Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'destroy'])->name('usuario.excluir');// Exclui o usuário
 
 //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+//CRUD PAPEIS
+//Route::get('/holes', [App\Http\Controllers\Adm\RoleController::class, 'index'])->name('hole.index');
+
+
+Route::prefix('adm')->middleware(['auth'])->group(function () {
+  // Rota para listar os papéis
+  Route::get('papeis', [RoleController::class, 'index'])->name('roles.index');
+
+  // Rota para exibir o formulário de criação de novo papel
+  Route::get('papeis/novo', [RoleController::class, 'create'])->name('roles.create');
+
+  // Rota para armazenar um novo papel
+  Route::post('papeis', [RoleController::class, 'store'])->name('roles.store');
+
+  // Rota para exibir o formulário de edição de um papel existente
+  Route::get('papeis/{role}/editar', [RoleController::class, 'edit'])->name('roles.edit');
+
+  // Rota para atualizar um papel existente
+  Route::put('papeis/{role}', [RoleController::class, 'update'])->name('roles.update');
+
+  // Rota para excluir um papel
+  Route::delete('papeis/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+});
