@@ -3,8 +3,9 @@
 namespace App\Http\Controllers\Adm;
 
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
@@ -70,5 +71,42 @@ class RoleController extends Controller
             // Retorna erro, caso algo dê errado
             return redirect()->route('roles.index')->with('error', 'Erro ao excluir o papel. Tente novamente.');
         }
+    }
+
+    public function permissions(Role $role)
+    {
+        $permissions = Permission::all(); // Todas as permissões disponíveis
+        $rolePermissions = $role->permissions->pluck('id')->toArray(); // Permissões já atribuídas ao papel
+
+        return view('app.adm.roles.permissions', compact('role', 'permissions', 'rolePermissions'));
+    }
+
+    public function updatePermissions(Request $request, Role $role)
+    {
+        $validated = $request->validate([
+            'permissions' => 'array', // Deve ser um array de permissões
+            'permissions.*' => 'exists:permissions,name', // Cada permissão deve existir na tabela permissions
+        ]);
+
+        $permissionNames = $validated['permissions'] ?? [];
+
+        // Recupera as permissões atuais da role
+        $currentPermissions = $role->permissions->pluck('name')->toArray();
+
+        // Adiciona as permissões que não estão associadas
+        foreach ($permissionNames as $permissionName) {
+            if (!in_array($permissionName, $currentPermissions)) {
+                $role->givePermissionTo($permissionName);
+            }
+        }
+
+        // Remove as permissões que foram desmarcadas
+        foreach ($currentPermissions as $currentPermission) {
+            if (!in_array($currentPermission, $permissionNames)) {
+                $role->revokePermissionTo($currentPermission);
+            }
+        }
+
+        return redirect()->route('roles.index')->with('success', 'Permissões atualizadas com sucesso!');
     }
 }

@@ -5,15 +5,18 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Role extends Model
-{
-    use HasFactory;
+use Spatie\Permission\Traits\HasRoles;
 
-    protected $table = 'roles';
+class Permission extends Model
+{
+    use HasFactory, HasRoles; // Inclua o trait HasRoles
+
+    protected $table = 'permissions';
 
     protected $fillable = [
         'name', // Nome do papel
         'guard_name', 
     ];
 
+    
 }

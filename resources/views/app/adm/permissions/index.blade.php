@@ -1,10 +1,10 @@
 @extends('layouts.app.adm.adm')
 
-@section('title', 'Gerenciamento de Papeis')
+@section('title', 'Gerenciamento Permissões')
 
 @section('content')
 <div class="container">
-    <h1>Gerenciamento de Papeis</h1>
+    <h1>Gerenciamento de Permissões</h1>
 
     @if (session('success'))
         <div id="mess-success-alert" class="alert alert-success">
@@ -14,14 +14,14 @@
 
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <strong>Total de registros:</strong> {{ $roles->count() }}
+            <strong>Total de registros:</strong> {{ $permissions->count() }}
         </div>
         <div>
-            <a href="{{ route('roles.create') }}" class="btn btn-primary">Cadastrar Novo Papel</a>
+            <a href="{{ route('permissions.create') }}" class="btn btn-primary">Cadastrar Nova Permissão</a>
         </div>
     </div>
 
-    <!-- Tabela de Papéis -->
+    <!-- Tabela de Permissões -->
     <table class="table table-striped table-bordered">
         <thead class="bg-dark text-white">
             <tr>
@@ -31,17 +31,16 @@
             </tr>
         </thead>
         <tbody>
-            @foreach($roles as $role)
+            @foreach($permissions as $permission)
                 <tr>
-                    <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td>{{ $permission->id }}</td>
+                    <td>{{ $permission->name }}</td>
                     <td>
-                        <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
-                        <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-info btn-sm me-2">Gerenciar Permissões</a>
-                        <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
+                        <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
+                        <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este papel?')">Excluir</button>
+                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">Excluir</button>
                         </form>
                     </td>
                 </tr>
@@ -51,7 +50,7 @@
 
     <!-- Paginação -->
     <div class="d-flex justify-content-center">
-        {{ $roles->links() }}
+        {{ $permissions->links() }}
     </div>
 </div>
 @endsection

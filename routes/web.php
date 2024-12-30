@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Adm\PermissionController;
 use App\Http\Controllers\Adm\RoleController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\SiteController;
@@ -69,4 +70,21 @@ Route::prefix('adm')->middleware(['auth'])->group(function () {
 
   // Rota para excluir um papel
   Route::delete('papeis/{role}', [RoleController::class, 'destroy'])->name('roles.destroy');
+
+  // Rotas para gerenciar permissões de um papel
+  Route::get('papeis/{role}/permissoes', [RoleController::class, 'permissions'])->name('roles.permissions');
+  Route::post('papeis/{role}/permissoes', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
+
+
+});
+
+
+Route::prefix('adm')->middleware(['auth'])->group(function () {
+  // Rotas para CRUD de permissões
+  Route::get('permissoes', [PermissionController::class, 'index'])->name('permissions.index');
+  Route::get('permissoes/novo', [PermissionController::class, 'create'])->name('permissions.create');
+  Route::post('permissoes', [PermissionController::class, 'store'])->name('permissions.store');
+  Route::get('permissoes/{permission}/editar', [PermissionController::class, 'edit'])->name('permissions.edit');
+  Route::put('permissoes/{permission}', [PermissionController::class, 'update'])->name('permissions.update');
+  Route::delete('permissoes/{permission}', [PermissionController::class, 'destroy'])->name('permissions.destroy');
 });
