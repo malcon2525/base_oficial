@@ -13,6 +13,8 @@ class RoleController extends Controller
     {
          // Recupera os papéis e carrega as permissões associadas
         $roles = Role::with('permissions')->paginate(20);
+        // Recupera os papéis, carregando as permissões e usuários associados
+        $roles = Role::with(['permissions', 'users'])->paginate(20);
 
         // Retorna a view com os dados
         //return view('app.adm.usuarios.delete', compact('user'));

@@ -10,8 +10,12 @@ class PermissionController extends Controller
 {
     public function index()
     {
-        $permissions = Permission::paginate(50);
+        //$permissions = Permission::paginate(50);
+        // Recupera todas as permissões com os papéis e usuários associados
+        $permissions = Permission::with(['roles', 'users'])->paginate(20);
         return view('app.adm.permissions.index', compact('permissions'));
+
+        
     }
 
     public function create()

@@ -34,13 +34,41 @@
             @foreach($permissions as $permission)
                 <tr>
                     <td>{{ $permission->id }}</td>
-                    <td>{{ $permission->name }}</td>
+                    <td>{{ $permission->name }}
+                        <div class="ms-3">
+                            <strong>Associada aos papeis: </strong>
+                            @if ($permission->roles->isNotEmpty())
+                                [{{ $permission->roles->pluck('name')->join(', ') }}]
+                            @else
+                                Nenhum papel
+                            @endif
+                        </div>
+                        <div class="ms-3">
+                            <strong>Associada aos usuários: </strong>
+                                @if ($permission->users->isNotEmpty())
+                                    [{{ $permission->users->pluck('name')->join(', ') }}]
+                                @else
+                                    Nenhum usuário
+                                @endif
+                        </div>
+                    </td>
                     <td class="actions">
                         <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
                         <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">Excluir</button>
+
+                            <!-- Verifica se a permissão está associada a algum papel -->
+                            @if ($permission->roles->isEmpty() && $permission->users->isEmpty())
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir esta permissão?')">Excluir</button>
+                            @else
+                            <button type="button" class="btn btn-danger btn-sm" disabled 
+                                    title="Este papel está associado a um ou mais usuários e não pode ser excluído.">
+                                Excluir
+                            </button>
+                            @endif
+                        
+                        
                         </form>
                     </td>
                 </tr>
@@ -58,7 +86,7 @@
 @push('styles')
     <style>
         .actions {
-            width: 150px;
+            width: 250px;
         }
 
     </style>

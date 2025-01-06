@@ -35,13 +35,25 @@
                 <tr>
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}
-                        <br> 
-                        <strong>Permissões:</strong> 
-                        @if($role->permissions->isEmpty())
-                            Nenhuma permissão associada.
-                        @else
-                            [ {{ $role->permissions->pluck('name')->join(', ') }} ]
-                        @endif
+
+                        
+                        <div class="ms-3">
+                            <strong>Possui as Permissões:</strong> 
+                            @if($role->permissions->isEmpty())
+                                Nenhuma permissão associada.
+                            @else
+                                [ {{ $role->permissions->pluck('name')->join(', ') }} ]
+                            @endif
+
+                            <br>
+                            <strong>Associada aos usuários: </strong>
+                            @if ($role->users->isNotEmpty())
+                                [{{ $role->users->pluck('name')->join(', ') }}]
+                            @else
+                                Nenhum papel
+                            @endif
+                        </div>
+                        
                     </td>
                     <td class="actions">
                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
@@ -49,7 +61,16 @@
                         <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este papel?')">Excluir</button>
+                    
+                            <!-- Verifica se o papel está associado a algum usuário -->
+                            @if ($role->users->isEmpty())
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este papel?')">Excluir</button>
+                            @else
+                                <button type="button" class="btn btn-danger btn-sm" disabled 
+                                        title="Este papel está associado a um ou mais usuários e não pode ser excluído.">
+                                    Excluir
+                                </button>
+                            @endif
                         </form>
                     </td>
                 </tr>
