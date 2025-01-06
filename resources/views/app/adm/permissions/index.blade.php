@@ -35,7 +35,7 @@
                 <tr>
                     <td>{{ $permission->id }}</td>
                     <td>{{ $permission->name }}</td>
-                    <td>
+                    <td class="actions">
                         <a href="{{ route('permissions.edit', $permission->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
                         <form action="{{ route('permissions.destroy', $permission->id) }}" method="POST" style="display:inline;">
                             @csrf
@@ -55,6 +55,15 @@
 </div>
 @endsection
 
+@push('styles')
+    <style>
+        .actions {
+            width: 150px;
+        }
+
+    </style>
+@endpush
+
 @push('scripts')
 <script>
     // Código para fade out da mensagem de sucesso
@@ -70,3 +79,4 @@
     });
 </script>
 @endpush
+

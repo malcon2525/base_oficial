@@ -30,7 +30,8 @@
     
     
     
-    <!-- Scripts específicos da página -->
+    <!-- CSS e Scripts específicos da página -->
+    @stack('styles')
     @stack('scripts')
 </body>
 </html>

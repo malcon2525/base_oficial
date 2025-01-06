@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Adm;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -128,6 +130,7 @@ class UserController extends Controller
 
     /**
      * Mostra o formulário para excluir um usuário.
+     * 
      */
     public function showDeleteForm($id)
     {
@@ -153,4 +156,68 @@ class UserController extends Controller
         // Redireciona de volta para a lista de usuários com uma mensagem de sucesso
         return redirect()->route('usuario.consulta')->with('success', 'Usuário excluído com sucesso!');
     }
+
+
+    public function editRoles(User $user)
+    {
+        // Recupera todos os papéis e os papéis já atribuídos ao usuário
+        $roles = Role::all();
+        $userRoles = $user->roles->pluck('id')->toArray(); // Pegando os ids dos papéis atribuídos ao usuário
+
+        return view('app.adm.usuarios.edit-roles', compact('user', 'roles', 'userRoles'));
+    }
+
+    public function updateRoles(Request $request, User $user)
+    {
+        // Validação dos dados
+        $request->validate([
+            'roles' => 'array', // 'roles' deve ser um array
+            'roles.*' => 'exists:roles,id', // Verifica se os ids dos papéis existem
+        ]);
+
+        // Atualiza os papéis do usuário
+        $user->roles()->sync($request->roles); // Sincroniza os papéis com o usuário
+
+        return redirect()->route('users.roles.permissions.summary', ['user' => $user->id])->with('success', 'Papéis atualizados com sucesso!');
+    }
+
+
+
+    public function editPermissions(User $user)
+    {
+        // Recupera todas as permissões
+        $permissions = Permission::all();
+        
+        // Recupera as permissões já associadas ao usuário
+        $userPermissions = $user->permissions->pluck('id')->toArray();
+
+        return view('app.adm.usuarios.edit-permissions', compact('user', 'permissions', 'userPermissions'));
+    }
+
+    public function updatePermissions(Request $request, User $user)
+    {
+         // Valida os dados recebidos
+        $request->validate([
+            'permissions' => 'array',
+            'permissions.*' => 'exists:permissions,name',
+        ]);
+
+        // Sincroniza as permissões com o usuário
+        $user->syncPermissions($request->permissions);
+
+        return redirect()->route('users.roles.permissions.summary', ['user' => $user->id])->with('success', 'Permissões  atualizadas com sucesso!');
+    }
+
+
+    public function rolesPermissionsSummary(User $user)
+    {
+        // Obtém os papéis associados ao usuário
+        $roles = $user->roles;
+
+        // Obtém as permissões associadas ao usuário
+        $permissions = $user->permissions;
+
+        return view('app.adm.usuarios.roles-permissions-summary', compact('user', 'roles', 'permissions'));
+    }
+
 }

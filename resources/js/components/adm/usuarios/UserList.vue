@@ -40,33 +40,62 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="user in paginatedUsers" :key="user.id">
-            <td>{{ user.name }}</td>
-            <td>{{ user.email }}</td>
-            <td>
-              <span class="badge" :class="user.ativo ? 'bg-success' : 'bg-danger'">
-                {{ user.ativo ? 'Sim' : 'Não' }}
-              </span>
-            </td>
-            <td class="actions-column">
-              <!-- Editar com link para rota de edição -->
-              <a 
-                :href="`/usuarios/${user.id}/editar`" 
-                class="btn btn-sm btn-warning me-2"
-              >
-                Editar
-              </a>
-  
-              <!-- Excluir com link para rota de exclusão -->
-              <a 
-                :href="`/usuarios/${user.id}/excluir`"
-                class="btn btn-sm btn-danger"
-                
-              >
-                Excluir
-              </a>
-            </td>
-          </tr>
+          <template v-for="user in paginatedUsers" :key="user.id">
+            <tr >
+              <td>{{ user.name }}</td>
+              <td>{{ user.email }}</td>
+              <td>
+                <span class="badge" :class="user.ativo ? 'bg-success' : 'bg-danger'">
+                  {{ user.ativo ? 'Sim' : 'Não' }}
+                </span>
+              </td>
+              <td class="actions-column">
+                <!-- Editar com link para rota de edição -->
+                <a 
+                  :href="`/usuarios/${user.id}/editar`" 
+                  class="btn btn-sm btn-warning me-2"
+                >
+                  Editar
+                </a>
+
+                <!-- Gerenciar os papeis do usuário -->
+                <!-- <a 
+                  :href="`adm/usuarios/${user.id}/papeis`" 
+                  class="btn btn-info btn-sm me-2"
+                >Papeis
+                </a> -->
+
+                <!-- Gerenciar as permissões do usuário -->
+                  <!-- <a 
+                  :href="`adm/usuarios/${user.id}/permissoes`" 
+                  class="btn btn-info btn-sm me-2"
+                >
+                  Permissões
+                </a> -->
+
+                <!-- Exibir papéis e permissões -->
+                <a 
+                  :href="`adm/usuarios/${user.id}/papeis-permissoes`"
+                  class="btn btn-sm btn-info me-2"
+                >
+                  Papéis e Permissões
+                </a>
+
+
+
+                <!-- Excluir com link para rota de exclusão -->
+                <a 
+                  :href="`/usuarios/${user.id}/excluir`"
+                  class="btn btn-sm btn-danger"
+                  
+                >
+                  Excluir
+                </a>
+              </td>
+            </tr>
+            
+          </template>
+          
           <tr v-if="paginatedUsers.length === 0">
             <td colspan="4" class="text-center">Nenhum usuário encontrado</td>
           </tr>
@@ -155,7 +184,7 @@ export default {
   
   /* Ajusta a largura da coluna de ações */
   .actions-column {
-    width: 150px;
+    width: 350px;
     text-align: center;
   }
   

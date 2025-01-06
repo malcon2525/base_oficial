@@ -35,7 +35,7 @@
                 <tr>
                     <td>{{ $role->id }}</td>
                     <td>{{ $role->name }}</td>
-                    <td>
+                    <td class="actions">
                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
                         <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-info btn-sm me-2">Gerenciar Permissões</a>
                         <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
@@ -55,6 +55,15 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+    <style>
+        .actions {
+            width: 300px;
+        }
+
+    </style>
+@endpush
 
 @push('scripts')
 <script>

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Adm\PermissionController;
 use App\Http\Controllers\Adm\RoleController;
+use App\Http\Controllers\Adm\UserController;
 use App\Http\Controllers\AdmController;
 use App\Http\Controllers\SiteController;
 use Illuminate\Support\Facades\Route;
@@ -41,16 +42,22 @@ Route::post('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'store
 Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');//apresenta o formulário de edição
 Route::put('/usuarios/{id}', [App\Http\Controllers\Adm\UserController::class, 'update'])->name('usuario.update');//recebe os dados para edição no banco
 
-
 Route::get('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'showDeleteForm'])->name('usuario.deleteForm');// Exibe a tela de confirmação para excluir
 Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'destroy'])->name('usuario.excluir');// Exclui o usuário
+  
+  //
+  Route::prefix('adm')->middleware(['auth'])->group(function () {
+    Route::get('usuarios/{user}/papeis', [UserController::class, 'editRoles'])->name('users.roles.edit'); // irá exibir a página onde os papéis podem ser selecionados para o usuário.
+    Route::post('usuarios/{user}/papeis', [UserController::class, 'updateRoles'])->name('users.roles.update'); //vai processar os dados do formulário e atualizar os papéis associados ao usuário.
+    Route::get('usuarios/{user}/permissoes', [UserController::class, 'editPermissions'])->name('users.permissions.edit'); // irá exibir a página onde os papéis podem ser selecionados para o usuário.
+    Route::post('usuarios/{user}/permissoes', [UserController::class, 'updatePermissions'])->name('users.permissions.update'); //vai processar os dados do formulário e atualizar os papéis associados ao usuário.
 
-//Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('usuarios/{user}/papeis-permissoes', [UserController::class, 'rolesPermissionsSummary'])->name('users.roles.permissions.summary');
+
+  });
 
 
 //CRUD PAPEIS
-//Route::get('/holes', [App\Http\Controllers\Adm\RoleController::class, 'index'])->name('hole.index');
-
 
 Route::prefix('adm')->middleware(['auth'])->group(function () {
   // Rota para listar os papéis
