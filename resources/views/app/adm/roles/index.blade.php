@@ -26,7 +26,7 @@
         <thead class="bg-dark text-white">
             <tr>
                 <th>ID</th>
-                <th>Nome</th>
+                <th>Papel</th>
                 <th>Ações</th>
             </tr>
         </thead>
@@ -34,10 +34,18 @@
             @foreach($roles as $role)
                 <tr>
                     <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}</td>
+                    <td>{{ $role->name }}
+                        <br> 
+                        <strong>Permissões:</strong> 
+                        @if($role->permissions->isEmpty())
+                            Nenhuma permissão associada.
+                        @else
+                            [ {{ $role->permissions->pluck('name')->join(', ') }} ]
+                        @endif
+                    </td>
                     <td class="actions">
                         <a href="{{ route('roles.edit', $role->id) }}" class="btn btn-warning btn-sm me-2">Editar</a>
-                        <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-info btn-sm me-2">Gerenciar Permissões</a>
+                        <a href="{{ route('roles.permissions', $role->id) }}" class="btn btn-info btn-sm me-2">Associar Permissões</a>
                         <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')

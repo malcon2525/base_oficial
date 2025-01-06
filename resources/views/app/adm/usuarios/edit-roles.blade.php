@@ -26,6 +26,14 @@
                             <label class="form-check-label" for="role-{{ $role->id }}">
                                 {{ $role->name }}
                             </label>
+                            <div>
+                                <strong>Permissões:</strong>
+                                @if($role->permissions->isEmpty())
+                                    Nenhuma permissão associada.
+                                @else
+                                    [ {{ $role->permissions->pluck('name')->join(', ') }} ]
+                                @endif
+                            </div>
                         </div>
                     </div>
                 @endforeach

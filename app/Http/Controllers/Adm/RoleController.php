@@ -11,8 +11,8 @@ class RoleController extends Controller
 {
     public function index()
     {
-        // Recupera todos os papéis da tabela
-        $roles = Role::paginate(20); // Paginação de 10 papéis por página
+         // Recupera os papéis e carrega as permissões associadas
+        $roles = Role::with('permissions')->paginate(20);
 
         // Retorna a view com os dados
         //return view('app.adm.usuarios.delete', compact('user'));

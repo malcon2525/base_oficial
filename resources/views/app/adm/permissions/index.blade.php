@@ -26,7 +26,7 @@
         <thead class="bg-dark text-white">
             <tr>
                 <th>ID</th>
-                <th>Nome</th>
+                <th>Permissão</th>
                 <th>Ações</th>
             </tr>
         </thead>

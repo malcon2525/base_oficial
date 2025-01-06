@@ -160,9 +160,11 @@ class UserController extends Controller
 
     public function editRoles(User $user)
     {
-        // Recupera todos os papéis e os papéis já atribuídos ao usuário
-        $roles = Role::all();
-        $userRoles = $user->roles->pluck('id')->toArray(); // Pegando os ids dos papéis atribuídos ao usuário
+        /// Recupera todos os papéis com suas permissões
+        $roles = Role::with('permissions')->get();
+
+        // Recupera os IDs dos papéis já atribuídos ao usuário
+        $userRoles = $user->roles->pluck('id')->toArray();
 
         return view('app.adm.usuarios.edit-roles', compact('user', 'roles', 'userRoles'));
     }
@@ -211,8 +213,8 @@ class UserController extends Controller
 
     public function rolesPermissionsSummary(User $user)
     {
-        // Obtém os papéis associados ao usuário
-        $roles = $user->roles;
+        // Obtém os papéis associados ao usuário, carregando também as permissões de cada papel
+        $roles = $user->roles()->with('permissions')->get();
 
         // Obtém as permissões associadas ao usuário
         $permissions = $user->permissions;
