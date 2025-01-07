@@ -62,8 +62,8 @@
                             @csrf
                             @method('DELETE')
                     
-                            <!-- Verifica se o papel está associado a algum usuário -->
-                            @if ($role->users->isEmpty())
+                            <!-- Verifica se o papel está associado a algum usuário ou permissão -->
+                            @if ($role->users->isEmpty() && $role->permissions->isEmpty())
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja excluir este papel?')">Excluir</button>
                             @else
                                 <button type="button" class="btn btn-danger btn-sm" disabled 

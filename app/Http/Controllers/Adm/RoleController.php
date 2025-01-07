@@ -11,8 +11,6 @@ class RoleController extends Controller
 {
     public function index()
     {
-         // Recupera os papéis e carrega as permissões associadas
-        $roles = Role::with('permissions')->paginate(20);
         // Recupera os papéis, carregando as permissões e usuários associados
         $roles = Role::with(['permissions', 'users'])->paginate(20);
 

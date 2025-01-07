@@ -24,7 +24,7 @@
         </div>
         <div>
             <!-- Botão para adicionar novo usuário -->
-            <a href="/usuarios/novo" class="btn btn-primary">Cadastrar Novo Usuário</a>
+            <a href="/adm/usuarios/novo" class="btn btn-primary">Cadastrar Novo Usuário</a>
         </div>
     </div>
   
@@ -52,7 +52,7 @@
               <td class="actions-column">
                 <!-- Editar com link para rota de edição -->
                 <a 
-                  :href="`/usuarios/${user.id}/editar`" 
+                  :href="`/adm/usuarios/${user.id}/editar`" 
                   class="btn btn-sm btn-warning me-2"
                 >
                   Editar
@@ -85,7 +85,7 @@
 
                 <!-- Excluir com link para rota de exclusão -->
                 <a 
-                  :href="`/usuarios/${user.id}/excluir`"
+                  :href="`/adm/usuarios/${user.id}/excluir`"
                   class="btn btn-sm btn-danger"
                   
                 >
