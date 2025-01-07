@@ -75,7 +75,7 @@
 
                 <!-- Exibir papéis e permissões -->
                 <a 
-                  :href="`adm/usuarios/${user.id}/papeis-permissoes`"
+                  :href="`/adm/usuarios/${user.id}/papeis-permissoes`"
                   class="btn btn-sm btn-info me-2"
                 >
                   Papéis e Permissões

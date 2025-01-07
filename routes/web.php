@@ -24,7 +24,10 @@ use Illuminate\Support\Facades\Auth;
 //     return view('welcome');
 // });
 
-Auth::routes();
+// Adicione um grupo de rotas com o prefixo "adm"
+Route::prefix('adm')->group(function () {
+  Auth::routes(); // Registra as rotas de autenticação com o prefixo /adm
+});
 
 Route::get('/', [SiteController::class, 'home']);
 Route::get('/adm', [AdmController::class, 'index']);
@@ -34,19 +37,23 @@ Route::get('/adm', [AdmController::class, 'index']);
 // });
 
 //CRUD USUARIOS
-Route::get('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'index'])->name('usuario.consulta');
+Route::prefix('adm')->middleware(['auth', 'active'])->group(function () {
+    Route::get('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'index'])->name('usuario.consulta');
 
-Route::get('/usuarios/novo', [App\Http\Controllers\Adm\UserController::class, 'create'])->name('usuario.create');//apresenta o formulário de cadastro
-Route::post('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'store'])->name('usuario.store'); // recebe os dados do formulário e grava no banco
+    Route::get('/usuarios/novo', [App\Http\Controllers\Adm\UserController::class, 'create'])->name('usuario.create');//apresenta o formulário de cadastro
+    Route::post('/usuarios', [App\Http\Controllers\Adm\UserController::class, 'store'])->name('usuario.store'); // recebe os dados do formulário e grava no banco
 
-Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');//apresenta o formulário de edição
-Route::put('/usuarios/{id}', [App\Http\Controllers\Adm\UserController::class, 'update'])->name('usuario.update');//recebe os dados para edição no banco
+    Route::get('/usuarios/{id}/editar', [App\Http\Controllers\Adm\UserController::class, 'edit'])->name('usuario.edit');//apresenta o formulário de edição
+    Route::put('/usuarios/{id}', [App\Http\Controllers\Adm\UserController::class, 'update'])->name('usuario.update');//recebe os dados para edição no banco
 
-Route::get('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'showDeleteForm'])->name('usuario.deleteForm');// Exibe a tela de confirmação para excluir
-Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'destroy'])->name('usuario.excluir');// Exclui o usuário
+    Route::get('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'showDeleteForm'])->name('usuario.deleteForm');// Exibe a tela de confirmação para excluir
+    Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController::class, 'destroy'])->name('usuario.excluir');// Exclui o usuário
+
+});
   
-  //
-  Route::prefix('adm')->middleware(['auth'])->group(function () {
+  
+//rotas que assosiam papeis e permissões aos usuários
+  Route::prefix('adm')->middleware(['auth', 'active'])->group(function () {
     Route::get('usuarios/{user}/papeis', [UserController::class, 'editRoles'])->name('users.roles.edit'); // irá exibir a página onde os papéis podem ser selecionados para o usuário.
     Route::post('usuarios/{user}/papeis', [UserController::class, 'updateRoles'])->name('users.roles.update'); //vai processar os dados do formulário e atualizar os papéis associados ao usuário.
     Route::get('usuarios/{user}/permissoes', [UserController::class, 'editPermissions'])->name('users.permissions.edit'); // irá exibir a página onde os papéis podem ser selecionados para o usuário.
@@ -57,9 +64,9 @@ Route::delete('/usuarios/{id}/excluir', [App\Http\Controllers\Adm\UserController
   });
 
 
-//CRUD PAPEIS
-
-Route::prefix('adm')->middleware(['auth'])->group(function () {
+//Rotas para crud de papeis.
+Route::prefix('adm')->middleware(['auth', 'active'])->group(function () {
+  
   // Rota para listar os papéis
   Route::get('papeis', [RoleController::class, 'index'])->name('roles.index');
 
@@ -81,13 +88,11 @@ Route::prefix('adm')->middleware(['auth'])->group(function () {
   // Rotas para gerenciar permissões de um papel
   Route::get('papeis/{role}/permissoes', [RoleController::class, 'permissions'])->name('roles.permissions');
   Route::post('papeis/{role}/permissoes', [RoleController::class, 'updatePermissions'])->name('roles.permissions.update');
-
-
 });
 
 
-Route::prefix('adm')->middleware(['auth'])->group(function () {
-  // Rotas para CRUD de permissões
+//Rotas para CRUD de permissões
+Route::prefix('adm')->middleware(['auth', 'active'])->group(function () {
   Route::get('permissoes', [PermissionController::class, 'index'])->name('permissions.index');
   Route::get('permissoes/novo', [PermissionController::class, 'create'])->name('permissions.create');
   Route::post('permissoes', [PermissionController::class, 'store'])->name('permissions.store');

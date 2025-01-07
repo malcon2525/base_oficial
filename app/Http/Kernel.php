@@ -13,6 +13,16 @@ class Kernel extends HttpKernel
      *
      * @var array<int, class-string|string>
      */
+
+    
+     //Middlewares registrados aqui podem ser aplicados individualmente em rotas ou grupos de rotas.
+    protected $routeMiddleware = [
+        'active' => \App\Http\Middleware\CheckUserActive::class, // Registra o middleware
+    ];
+    
+    
+    
+    
     protected $middleware = [
         // \App\Http\Middleware\TrustHosts::class,
         \App\Http\Middleware\TrustProxies::class,
@@ -21,6 +31,8 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+
+        
     ];
 
     /**

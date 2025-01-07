@@ -13,7 +13,7 @@
             <h5>Selecione os Papéis para o Usuário</h5>
             <div class="row ">
                 @foreach($roles as $role)
-                    <div class="col-md-4 border-container me-1">
+                    <div class="col-md-4 border-container me-1 mb-1">
                         <div class="form-check">
                             <input 
                                 type="checkbox" 
