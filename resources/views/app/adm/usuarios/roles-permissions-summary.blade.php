@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container">
-    <h1>Resumo de Papéis e Permissões para o Usuário: {{ $user->name }}</h1>
+    <h1>Resumo de Papéis e Permissões para o Usuário: <span class="destaque1">{{ $user->name }}</span> </h1>
 
     @if (session('success'))
         <div id="mess-success-alert" class="alert alert-success">
@@ -12,7 +12,7 @@
         </div>
     @endif
 
-    <div class="mb-4">
+    <div class="mb-4 border-container">
         <h5><strong>Papéis Associados:</strong></h5>
         <ul>
             @forelse($roles as $role)
@@ -32,7 +32,7 @@
         <a href="{{ route('users.roles.edit', $user->id) }}" class="btn btn-gerenciar btn-sm me-2">Gerenciar Papeis</a>
     </div>
 
-    <div class="mb-4">
+    <div class="mb-4 border-container">
         <h5><strong>Permissões Associadas:</strong></h5>
         <ul>
             @forelse($permissions as $permission)
@@ -75,6 +75,16 @@
         background-color: rgba(149, 169, 177, 0.486);
         
     }
+    .border-container{
+        border: 1px solid #d6d6d6;
+        border-radius: 5px;
+        padding: 10px;
+    }
+    .destaque1{
+        color: #0080c0;
+        font-weight: 600;
+    }
     
 </style>
 @endpush
+

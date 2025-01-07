@@ -34,7 +34,7 @@
             @foreach($roles as $role)
                 <tr>
                     <td>{{ $role->id }}</td>
-                    <td>{{ $role->name }}
+                    <td><span class="destaque1">{{ $role->name }}</span>
 
                         
                         <div class="ms-3">
@@ -46,7 +46,7 @@
                             @endif
 
                             <br>
-                            <strong>Associada aos usuários: </strong>
+                            <strong>Associado aos usuários: </strong>
                             @if ($role->users->isNotEmpty())
                                 [{{ $role->users->pluck('name')->join(', ') }}]
                             @else
@@ -90,9 +90,14 @@
         .actions {
             width: 300px;
         }
+        .destaque1{
+            color: #0080c0;
+            font-weight: 600;
+        }
 
     </style>
 @endpush
+
 
 @push('scripts')
 <script>

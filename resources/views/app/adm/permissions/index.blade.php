@@ -34,7 +34,7 @@
             @foreach($permissions as $permission)
                 <tr>
                     <td>{{ $permission->id }}</td>
-                    <td>{{ $permission->name }}
+                    <td> <span class="destaque1">{{ $permission->name }}</span>
                         <div class="ms-3">
                             <strong>Associada aos papeis: </strong>
                             @if ($permission->roles->isNotEmpty())
@@ -84,13 +84,19 @@
 @endsection
 
 @push('styles')
-    <style>
-        .actions {
-            width: 250px;
-        }
+<style>
+    .actions {
+        width: 250px;
+    }
+    .destaque1{
+        color: #0080c0;
+        font-weight: 600;
+    }
 
-    </style>
+</style>
 @endpush
+
+
 
 @push('scripts')
 <script>
